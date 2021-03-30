@@ -8,13 +8,13 @@ impl crate::FromSql for Type {
     fn from_binary(ty: &Type, raw: Option<&[u8]>) -> crate::Result<Self> {
         String::from_binary(ty, raw)?
             .parse()
-            .map_err(|_| Self::error(ty, "elephantry::pq::Type", raw))
+            .map_err(|_| Self::error(ty, raw))
     }
 
     fn from_text(ty: &Type, raw: Option<&str>) -> crate::Result<Self> {
         crate::not_null(raw)?
             .parse()
-            .map_err(|_| Self::error(ty, "elephantry::pq::Type", raw))
+            .map_err(|_| Self::error(ty, raw))
     }
 }
 

@@ -39,10 +39,10 @@ impl crate::FromSql for Segment {
     fn from_text(ty: &crate::pq::Type, raw: Option<&str>) -> crate::Result<Self> {
         let coordinates = crate::not_null(raw)?
             .parse::<crate::Coordinates>()
-            .map_err(|_| Self::error(ty, "elephantry::Segment", raw))?;
+            .map_err(|_| Self::error(ty, raw))?;
 
         if coordinates.len() != 2 {
-            return Err(Self::error(ty, "elephantry::Segment", raw));
+            return Err(Self::error(ty, raw));
         }
 
         Ok(Self::new(coordinates[0].clone(), coordinates[1].clone()))

@@ -43,7 +43,7 @@ impl crate::FromSql for Path {
     fn from_text(ty: &crate::pq::Type, raw: Option<&str>) -> crate::Result<Self> {
         let coordinates = crate::not_null(raw)?
             .parse()
-            .map_err(|_| Self::error(ty, "elephantry::Path", raw))?;
+            .map_err(|_| Self::error(ty, raw))?;
 
         Ok(Self::new(&coordinates))
     }

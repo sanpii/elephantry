@@ -21,7 +21,7 @@ impl crate::FromSql for u8 {
         bytes
             .get(0)
             .map(|x| x as u8)
-            .ok_or_else(|| Self::error(ty, "u8", raw))
+            .ok_or_else(|| Self::error(ty, raw))
     }
 
     /*
@@ -33,7 +33,7 @@ impl crate::FromSql for u8 {
         bytes
             .get(0)
             .map(|x| x as u8)
-            .ok_or_else(|| Self::error(ty, "u8", raw))
+            .ok_or_else(|| Self::error(ty, raw))
     }
 }
 

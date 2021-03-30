@@ -34,12 +34,12 @@ impl crate::FromSql for Circle {
         }
 
         let mut matches = REGEX.find_iter(crate::not_null(raw)?);
-        let x = crate::Coordinates::coordinate(&matches.next())
-            .ok_or_else(|| Self::error(ty, "elephantry::Circle", raw))?;
-        let y = crate::Coordinates::coordinate(&matches.next())
-            .ok_or_else(|| Self::error(ty, "elephantry::Circle", raw))?;
-        let r = crate::Coordinates::coordinate(&matches.next())
-            .ok_or_else(|| Self::error(ty, "elephantry::Circle", raw))?;
+        let x =
+            crate::Coordinates::coordinate(&matches.next()).ok_or_else(|| Self::error(ty, raw))?;
+        let y =
+            crate::Coordinates::coordinate(&matches.next()).ok_or_else(|| Self::error(ty, raw))?;
+        let r =
+            crate::Coordinates::coordinate(&matches.next()).ok_or_else(|| Self::error(ty, raw))?;
 
         Ok(Self::new(x, y, r))
     }

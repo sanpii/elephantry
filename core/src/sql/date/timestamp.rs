@@ -16,7 +16,7 @@ impl crate::FromSql for chrono::NaiveDateTime {
 
         match chrono::NaiveDateTime::parse_from_str(crate::not_null(raw)?, "%F %T.%f") {
             Ok(date) => Ok(date),
-            _ => Err(Self::error(ty, "timestamp", raw)),
+            _ => Err(Self::error(ty, raw)),
         }
     }
 

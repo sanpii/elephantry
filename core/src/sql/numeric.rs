@@ -14,7 +14,7 @@ impl crate::FromSql for bigdecimal::BigDecimal {
     fn from_text(ty: &crate::pq::Type, raw: Option<&str>) -> crate::Result<Self> {
         crate::not_null(raw)?
             .parse()
-            .map_err(|_| Self::error(ty, "numeric", raw))
+            .map_err(|_| Self::error(ty, raw))
     }
 
     /*
@@ -40,31 +40,31 @@ impl crate::FromSql for bigdecimal::BigDecimal {
 
         let first_digit = buf.read_i16::<byteorder::BigEndian>()?;
         result += bigdecimal::BigDecimal::try_from(first_digit as f64 * NBASE.powi(weight))
-            .map_err(|_| Self::error(ty, "numeric", raw))?;
+            .map_err(|_| Self::error(ty, raw))?;
 
         for x in 1..ndigits {
             let digit = buf.read_i16::<byteorder::BigEndian>()?;
 
             if x < weight {
-                result *= bigdecimal::BigDecimal::try_from(NBASE)
-                    .map_err(|_| Self::error(ty, "numeric", raw))?;
-                result += bigdecimal::BigDecimal::try_from(digit)
-                    .map_err(|_| Self::error(ty, "numeric", raw))?;
+                result *=
+                    bigdecimal::BigDecimal::try_from(NBASE).map_err(|_| Self::error(ty, raw))?;
+                result +=
+                    bigdecimal::BigDecimal::try_from(digit).map_err(|_| Self::error(ty, raw))?;
             } else {
                 assert_ne!(dscale, 0);
 
                 result += bigdecimal::BigDecimal::try_from(
                     digit as f32 * 10_f32.powi(-DEC_DIGITS * (x - weight)),
                 )
-                .map_err(|_| Self::error(ty, "numeric", raw))?;
+                .map_err(|_| Self::error(ty, raw))?;
             }
         }
 
         result = match sign {
             0 => result,
             0x4000 => -result,
-            0xC000 => return Err(Self::error(ty, "numeric", raw)),
-            _ => return Err(Self::error(ty, "numeric", raw)),
+            0xC000 => return Err(Self::error(ty, raw)),
+            _ => return Err(Self::error(ty, raw)),
         };
 
         Ok(result)

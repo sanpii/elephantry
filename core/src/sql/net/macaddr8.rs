@@ -12,7 +12,7 @@ impl crate::FromSql for macaddr::MacAddr8 {
     fn from_text(ty: &crate::pq::Type, raw: Option<&str>) -> crate::Result<Self> {
         crate::not_null(raw)?
             .parse()
-            .map_err(|_| Self::error(ty, "macaddr::MacAddr8", raw))
+            .map_err(|_| Self::error(ty, raw))
     }
 
     /*

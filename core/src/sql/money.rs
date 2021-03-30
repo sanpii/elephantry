@@ -14,7 +14,7 @@ impl crate::FromSql for Money {
     fn from_text(ty: &crate::pq::Type, raw: Option<&str>) -> crate::Result<Self> {
         let s = String::from_text(ty, raw)?;
 
-        Self::parse_str(&s).map_err(|_| Self::error(ty, "money", raw))
+        Self::parse_str(&s).map_err(|_| Self::error(ty, raw))
     }
 
     /*

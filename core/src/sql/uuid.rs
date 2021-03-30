@@ -12,7 +12,7 @@ impl crate::FromSql for uuid::Uuid {
     fn from_text(ty: &crate::pq::Type, raw: Option<&str>) -> crate::Result<Self> {
         match uuid::Uuid::parse_str(&crate::not_null(raw)?) {
             Ok(uuid) => Ok(uuid),
-            _ => Err(Self::error(ty, "uuid", raw)),
+            _ => Err(Self::error(ty, raw)),
         }
     }
 
@@ -23,7 +23,7 @@ impl crate::FromSql for uuid::Uuid {
         let buf = crate::not_null(raw)?;
 
         if buf.len() != 16 {
-            return Err(Self::error(ty, "uuid", raw));
+            return Err(Self::error(ty, raw));
         }
 
         let mut bytes = [0; 16];

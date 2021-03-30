@@ -12,7 +12,7 @@ impl crate::FromSql for std::net::IpAddr {
     fn from_text(ty: &crate::pq::Type, raw: Option<&str>) -> crate::Result<Self> {
         crate::not_null(raw)?
             .parse()
-            .map_err(|_| Self::error(ty, "std::net::IpAddr", raw))
+            .map_err(|_| Self::error(ty, raw))
     }
 
     /*
@@ -24,7 +24,7 @@ impl crate::FromSql for std::net::IpAddr {
         let network = super::Network::try_from(crate::from_sql::not_null(raw)?)?;
 
         if network.is_cidr {
-            return Err(Self::error(ty, "std::net::IpAddr", raw));
+            return Err(Self::error(ty, raw));
         }
 
         let ip = match network.ip_familly {

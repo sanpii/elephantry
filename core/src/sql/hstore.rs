@@ -106,7 +106,7 @@ impl crate::FromSql for Hstore {
         let count = buf.read_i32::<byteorder::BigEndian>()?;
 
         for _ in 0..count {
-            let key = Self::read_string(&mut buf)?.ok_or_else(|| Self::error(ty, "Hstore", raw))?;
+            let key = Self::read_string(&mut buf)?.ok_or_else(|| Self::error(ty, raw))?;
             let value = Self::read_string(&mut buf)?;
 
             hstore.insert(key, value);

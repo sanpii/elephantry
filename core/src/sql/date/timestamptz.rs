@@ -34,7 +34,7 @@ impl crate::ToSql for chrono::DateTime<chrono::offset::FixedOffset> {
 impl crate::FromSql for chrono::DateTime<chrono::offset::FixedOffset> {
     fn from_text(ty: &crate::pq::Type, raw: Option<&str>) -> crate::Result<Self> {
         chrono::DateTime::parse_from_str(crate::not_null(raw)?, "%F %T%#z")
-            .map_err(|_| Self::error(ty, "timestamptz", raw))
+            .map_err(|_| Self::error(ty, raw))
     }
 
     fn from_binary(ty: &crate::pq::Type, raw: Option<&[u8]>) -> crate::Result<Self> {

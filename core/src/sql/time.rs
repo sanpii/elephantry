@@ -14,7 +14,7 @@ impl crate::ToSql for Time {
 
 impl crate::FromSql for Time {
     fn from_text(ty: &crate::pq::Type, raw: Option<&str>) -> crate::Result<Self> {
-        Time::parse(crate::not_null(raw)?, "%T").map_err(|_| Self::error(ty, "time", raw))
+        Time::parse(crate::not_null(raw)?, "%T").map_err(|_| Self::error(ty, raw))
     }
 
     /*
@@ -44,12 +44,12 @@ impl crate::FromSql for TimeTz {
 
         let x = match value.find(|c| c == '+' || c == '-') {
             Some(x) => x,
-            None => return Err(Self::error(ty, "timetz", raw)),
+            None => return Err(Self::error(ty, raw)),
         };
 
         let time = Time::parse(&value[0..x], "%T").map_err(|err| {
             dbg!(err);
-            Self::error(ty, "timetz", raw)
+            Self::error(ty, raw)
         })?;
 
         let mut tz = value[x..].replace(':', "");
@@ -60,7 +60,7 @@ impl crate::FromSql for TimeTz {
 
         let timezone = Timezone::parse(&tz, "%z").map_err(|err| {
             dbg!(err);
-            Self::error(ty, "timetz", raw)
+            Self::error(ty, raw)
         })?;
 
         Ok((time, timezone))

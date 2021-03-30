@@ -16,8 +16,7 @@ impl crate::ToSql for xmltree::Element {
 
 impl crate::FromSql for xmltree::Element {
     fn from_text(ty: &crate::pq::Type, raw: Option<&str>) -> crate::Result<Self> {
-        xmltree::Element::parse(crate::not_null(raw)?.as_bytes())
-            .map_err(|_| Self::error(ty, "sxd_document::Package", raw))
+        xmltree::Element::parse(crate::not_null(raw)?.as_bytes()).map_err(|_| Self::error(ty, raw))
     }
 
     /*
