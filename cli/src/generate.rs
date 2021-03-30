@@ -211,10 +211,7 @@ where
     let fields = composite
         .fields
         .iter()
-        .map(|(name, ty)| {
-            let sql_ty = ty.parse().unwrap_or(elephantry::pq::types::TEXT);
-            format!("    {}: {},", name, elephantry::pq::sql_to_rust(&sql_ty))
-        })
+        .map(|(name, ty)| format!("    {}: {},", name, elephantry::pq::sql_to_rust(ty)))
         .collect::<Vec<_>>();
 
     write!(

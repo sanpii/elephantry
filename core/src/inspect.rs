@@ -191,7 +191,7 @@ pub fn domains(
 pub struct Composite {
     pub name: String,
     #[elephantry(default)]
-    pub fields: Vec<(String, String)>,
+    pub fields: Vec<(String, crate::pq::Type)>,
     pub description: Option<String>,
 }
 
@@ -206,10 +206,7 @@ pub fn composites(
         crate::inspect::types(connection, schema, 'c')?.collect::<Vec<crate::inspect::Composite>>();
 
     for composite in &mut composites {
-        composite.fields = crate::inspect::composite_fields(connection, &composite.name)?
-            .iter()
-            .map(|(a, b)| (a.clone(), b.name.to_string()))
-            .collect();
+        composite.fields = crate::inspect::composite_fields(connection, &composite.name)?;
     }
 
     Ok(composites)

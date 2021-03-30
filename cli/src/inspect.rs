@@ -193,7 +193,7 @@ pub fn composites(connection: &elephantry::Connection, schema: &str) -> crate::R
         let fields = composite
             .fields
             .iter()
-            .map(|(n, t)| format!("{}::{}", n, t))
+            .map(|(n, t)| format!("{}::{}", n, t.name))
             .collect::<Vec<_>>()
             .join(", ");
 
