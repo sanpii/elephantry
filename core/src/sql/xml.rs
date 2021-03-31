@@ -7,7 +7,7 @@ impl crate::ToSql for xmltree::Element {
         let mut vec = Vec::new();
 
         self.write(&mut vec)
-            .map_err(|e| self.error("xmltree::Element", Some(&e.to_string())))?;
+            .map_err(|e| self.error(Some(&e.to_string())))?;
         vec.push(b'\0');
 
         Ok(Some(vec))
@@ -16,7 +16,8 @@ impl crate::ToSql for xmltree::Element {
 
 impl crate::FromSql for xmltree::Element {
     fn from_text(ty: &crate::pq::Type, raw: Option<&str>) -> crate::Result<Self> {
-        xmltree::Element::parse(crate::not_null(raw)?.as_bytes()).map_err(|_| Self::error(ty, raw))
+        xmltree::Element::parse(crate::not_null(raw)?.as_bytes())
+            .map_err(|_| Self::error(ty, raw))
     }
 
     /*
