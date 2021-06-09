@@ -63,10 +63,14 @@ optional = true
 version = "0.8"
 optional = true
 
-[dependencies.rocket_contrib]
-version = "0.4"
+[dependencies.dep_rocket]
+package = "rocket"
+version = "0.5.0-rc.1"
 optional = true
-features = ["databases"]
+
+[dependencies.rocket_sync_db_pools]
+version = "0.1.0-rc.1"
+optional = true
 
 [dependencies.serde]
 version = "1.0"
@@ -109,7 +113,7 @@ json = ["serde_json", "elephantry-derive/json"]
 money = ["postgres_money", "elephantry-derive/money"]
 net = ["ipnetwork", "macaddr", "elephantry-derive/net"]
 numeric = ["bigdecimal", "elephantry-derive/numeric"]
-rocket = ["r2d2", "rocket_contrib"]
+rocket = ["dep_rocket", "r2d2", "rocket_sync_db_pools"]
 # @see https://github.com/rust-lang/cargo/issues/5565
 #uuid = ["dep:uuid", "elephantry-derive/uuid"]
 xml = ["xmltree", "elephantry-derive/xml"]
